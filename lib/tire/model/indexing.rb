@@ -58,7 +58,11 @@ module Tire
           if block_given?
             @mapping_options = args.pop
             yield
-            create_elasticsearch_index
+            unless index.exists?
+              create_elasticsearch_index
+            else
+              index.mapping(document_type.to_sym, { :properties => mapping })
+            end
           else
             @mapping
           end

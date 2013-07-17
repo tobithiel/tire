@@ -99,6 +99,10 @@ module Tire
 
       @response = Configuration.client.put url, payload
       result = MultiJson.decode(@response.body)
+      unless @response.success?
+        STDERR.puts "[ERROR] There has been an error when updating the mapping -- elasticsearch returned:",
+                          response
+      end
       @response.success? ? result : false
     ensure
       curl = %Q|curl -X PUT "#{url}" -d '#{payload}'|

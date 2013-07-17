@@ -61,7 +61,7 @@ module Tire
             unless index.exists?
               create_elasticsearch_index
             else
-              index.mapping(document_type.to_sym, { :properties => mapping })
+              index.mapping(document_type.to_sym, mapping_options.merge({ :properties => mapping }))
             end
           else
             @mapping
